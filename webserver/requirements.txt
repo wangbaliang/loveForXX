@@ -1,0 +1,8 @@
+flask
+gunicorn
+pyyaml
+boto3
+redis
+sqlalchemy
+arrow
+pymysql

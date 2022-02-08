@@ -1,0 +1,22 @@
+
+mysql_db:
+    defult:
+        url: "mysql+pymysql://root:123456@localhost:3306/xxlove?charset=utf8"
+        pool_size: 2
+        pool_recycle: 1800
+        echo: false
+
+
+
+# 小星这次用的
+
+# 默认用户名
+user_name: "chenxiaoxing"
+# 文件解析json结果目录
+upload_files:  "/root/xiaoxing/upload_files"
+# 文件解析入口脚本地址
+start_py: "/root/river/total.py"
+# 文件解析json结果目录
+result_json_dir:  "/root/river/result"
+# table name
+table_name: "source_file_tar"
