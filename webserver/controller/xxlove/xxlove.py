@@ -20,6 +20,7 @@ from multiprocessing import Process
 import subprocess
 
 from utils.config_helper import config
+from utils.sankey import gen_html_path, create_sankey
 
 
 
@@ -84,6 +85,14 @@ class FileUploadHandle(Base):
             sql = 'update source_file_tar set status=-1, message="%s" where id=%s' % (msg, task_id)
 
         status, result = self.exec_sql("update", sql)
+
+        res_dir = os.path.join(config.get("result_json_dir"), id)
+        evolution_file = os.path.join(res_dir, "evolution_info.json")
+        if os.path.exists(evolution_file):
+            create_sankey(task_id, evolution_file)
+        else:
+            print("task_id: %s 没有解析生成 evolution_info")
+
         return status, result
 
 
@@ -174,3 +183,17 @@ class ClusterPaperListHandle(Base):
         return self.set_response(**{'result': result})
 
 
+# 查看桑基图
+class SankeyHandle(Base):
+    def __init__(self):
+        super(SankeyHandle, self).__init__()
+
+
+    def get(self):
+
+        id = request.args.get("id")
+        html_path = gen_html_path(id)
+        if not os.path.exists(html_path):
+            return self.set_response(**{'status': False, 'message': '桑基图路径不存在: %s' % html_path})
+        html_path = os.path.split(html_path)[1]
+        return render_template(html_path)
