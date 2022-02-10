@@ -28,3 +28,9 @@ yarn
 
 yarn start
 
+## 持久化部署
+在frontEnd文件夹下
+pm2 start npm -- start
+
+
+
