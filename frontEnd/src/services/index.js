@@ -3,7 +3,7 @@ import {
   request
 } from 'umi';
 
-export const url = "http://101.201.199.130:5000";
+export const url = "http://123.56.49.120:5000";
 
 const myRequest = (url, options) => {
   return new Promise((resolve, reject) => {
