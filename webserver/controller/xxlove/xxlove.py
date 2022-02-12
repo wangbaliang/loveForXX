@@ -236,8 +236,8 @@ class KeywordHandle(Base):
         root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         html_path = os.path.join(root_path, 'templates', '%s_%s_%s_keywords.html' % (id, year, cluster_class))
 
-        if not os.path.exists(html_path):
-            return self.set_response(**{'status': False, 'message': '词云图: %s' % html_path})
+        if not os.path.exists(o_html_path):
+            return self.set_response(**{'status': False, 'message': '词云图: %s' % o_html_path})
 
         cmd = "cp -f %s %s" % (o_html_path, html_path)
         print(cmd)
