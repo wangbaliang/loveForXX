@@ -10,7 +10,7 @@ import copy
 
 from pyecharts.charts import Page, Sankey
 from pyecharts import options as opts
-
+from pyecharts.globals import ThemeType
 
 def gen_html_path(task_id):
     root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -96,6 +96,7 @@ def create_sankey(task_id, file_path):
                         none_year_class.remove(i)
                         dd.append(i)
 
+
                 link_more = {
                     'source': gen_class_name(pre_year, pre_class, pre_year_class['keyword_list'][0]),
                     'target': gen_class_name(year, u_class, year_class['keyword_list'][0]),
@@ -104,7 +105,9 @@ def create_sankey(task_id, file_path):
                 }
                 links_more.append(link_more)
 
+            dd1 = dd1 + none_year_class
             #             print(1111111111, year, u_class, pre_year, pre_class, year_class['doc_list'], pre_year_class['doc_list'], same_doc_list)
+
             none_year_link = {
                 'source': gen_none_name(pre_year),
                 'target': gen_class_name(year, u_class, year_class['keyword_list'][0]),
@@ -113,18 +116,19 @@ def create_sankey(task_id, file_path):
             }
             links_more.append(none_year_link)
 
-            dd1 = dd1 + none_year_class
 
-    links = [{'source': i['source'], 'target': i['target'], 'value': i['value']} for i in links_more]
+
+    links = [{'source': i['source'], 'target': i['target'], 'value': i['value']} for i in links_more if i['value'] > 0]
 
     c = (
-            Sankey()
+            Sankey(init_opts=opts.InitOpts(width='800px', height='450px'))
             .add(
                 "任务: %s" % task_id,
                 nodes,
                 links,
                 linestyle_opt=opts.LineStyleOpts(opacity=0.2, curve=0.5, color="source",type_="dotted"),
-                label_opts=opts.LabelOpts(position="right",),
+                label_opts=opts.LabelOpts(is_show=False),#(position="right",),
+                focus_node_adjacency='allEdges',
             )
             .set_global_opts(title_opts=opts.TitleOpts(title="主题演进桑基图"))
         )
