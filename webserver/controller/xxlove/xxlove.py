@@ -7,7 +7,7 @@ __author__ = 'wgs@test'
 # import climate
 # logging = climate.get_logger(__name__)
 
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, send_static_file
 from werkzeug.utils import secure_filename
 
 
@@ -215,3 +215,26 @@ class SankeyHandle(Base):
             return self.set_response(**{'status': False, 'message': '桑基图路径不存在: %s' % html_path})
         html_path = os.path.split(html_path)[1]
         return render_template(html_path)
+
+
+# 查看词云图
+class KeywordHandle(Base):
+    def __init__(self):
+        super(KeywordHandle, self).__init__()
+
+
+    def get(self):
+
+        id = request.args.get("id")
+        year = request.args.get("year")
+        cluster_class = request.args.get("cluster_class")
+
+        res_dir = os.path.join(config.get("result_json_dir"), id)
+        html_name = "%s_%s.html" % (year, cluster_class)
+        html_path = os.path.join(res_dir, html_name)
+
+        if not os.path.exists(html_path):
+            return self.set_response(**{'status': False, 'message': '词云图: %s' % html_path})
+
+        html_path = os.path.split(html_path)[1]
+        return send_static_file(html_path)
