@@ -150,7 +150,7 @@ class ClusterListHandle(Base):
             for cluster_class in cluster_classes:
                 v = clusters[cluster_class]
                 count = len(v['doc_list'])
-                year_totol += year_totol
+                year_totol += count
                 info = {
                     "cluster_class": cluster_class,
                     "count": count,
