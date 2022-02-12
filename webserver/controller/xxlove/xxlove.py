@@ -7,7 +7,7 @@ __author__ = 'wgs@test'
 # import climate
 # logging = climate.get_logger(__name__)
 
-from flask import render_template, request, redirect, url_for, send_static_file
+from flask import render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
 
