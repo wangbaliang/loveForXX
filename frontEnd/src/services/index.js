@@ -1,4 +1,6 @@
-import { notification } from 'antd';
+import {
+  notification
+} from 'antd';
 import {
   request
 } from 'umi';
@@ -8,14 +10,18 @@ export const url = "http://123.56.49.120:5000";
 const myRequest = (url, options) => {
   return new Promise((resolve, reject) => {
     request(url, options).then(res => {
-      const {error_code, message, result} = res;
-      if(error_code !== 0){
+      const {
+        error_code,
+        message,
+        result
+      } = res;
+      if (error_code !== 0) {
         notification.error({
-          message:"ERROR",
-          description:message,
+          message: "ERROR",
+          description: message,
         });
         reject(message);
-      }else {
+      } else {
         resolve(result);
       }
     }).catch(err => reject(err));

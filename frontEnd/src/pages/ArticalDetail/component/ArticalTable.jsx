@@ -1,13 +1,15 @@
 import { Table, Form, Select, Tag } from 'antd'
 import { useEffect, useState } from 'react';
-import { getClusterPaperList } from '@/services';
+import { getClusterPaperList, url } from '@/services';
 import { history } from 'umi';
 const { Option } = Select;
+const { id } = history.location.query;
 
 const ArticalList = (props) => {
-  const {list} = props;
+  const { list, year } = props;
   const [data, setData] = useState([]);
   const [clusterClass, setClusterClass] = useState();
+  const [cloudChartUrl, setCloudChartUrl] = useState('');
   const [form] = Form.useForm();
 
   const columns = [
@@ -56,22 +58,25 @@ const ArticalList = (props) => {
   ];
 
   useEffect(() => {
-    const { id } = history.location.query;
-    if(typeof(clusterClass) !== "undefined"){
-      getClusterPaperList({id, cluster_class: clusterClass}).then(data => {
+    if (typeof (clusterClass) !== "undefined") {
+      getClusterPaperList({ id, cluster_class: clusterClass, year }).then(data => {
         setData(data)
       }).catch(err => console.log(err))
+      setCloudChartUrl(`${url}/keyword?id=${id}&year=${year}&cluster_class=${clusterClass}`)
     }
   }, [clusterClass])
 
   useEffect(() => {
     form.setFieldsValue({
-      clusterClass:list[0]
+      clusterClass: list[0]
     })
     setClusterClass(list[0]);
-  },[list])
+    if (year) {
+      setCloudChartUrl(`${url}/keyword?id=${id}&year=${year}&cluster_class=${list[0]}`)
+    }
+  }, [list])
 
-  const onFormChange = ({clusterClass}) => {
+  const onFormChange = ({ clusterClass }) => {
     setClusterClass(clusterClass);
   };
 
@@ -81,9 +86,9 @@ const ArticalList = (props) => {
         layout="inline"
         form={form}
         onValuesChange={onFormChange}
-        style={{marginBottom:"20px"}}
+        style={{ marginBottom: "20px" }}
       >
-        <Form.Item label="" name="clusterClass">
+        <Form.Item label="类别选择：" name="clusterClass">
           <Select style={{ width: 120 }}>
             {list.length && list.map(v => (
               <Option value={v}>{v}</Option>
@@ -91,6 +96,9 @@ const ArticalList = (props) => {
           </Select>
         </Form.Item>
       </Form>
+      {
+        cloudChartUrl && <iframe src={cloudChartUrl} frameborder="0" style={{ width: '100%', height: '400px' }}></iframe>
+      }
       <Table columns={columns} dataSource={data} bordered rowKey="wos_doc_id" />
     </>
   )
