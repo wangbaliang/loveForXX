@@ -231,10 +231,17 @@ class KeywordHandle(Base):
 
         res_dir = os.path.join(config.get("result_json_dir"), id)
         html_name = "%s_%s.html" % (year, cluster_class)
-        html_path = os.path.join(res_dir, html_name)
+        o_html_path = os.path.join(res_dir, html_name)
+
+        root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        html_path = os.path.join(root_path, 'templates', '%s_%s_%s_keywords.html' % (id, year, cluster_class))
 
         if not os.path.exists(html_path):
             return self.set_response(**{'status': False, 'message': '词云图: %s' % html_path})
 
+        cmd = "cp -f %s %s" % (o_html_path, html_path)
+        print(cmd)
+        os.system(cmd)
+
         html_path = os.path.split(html_path)[1]
-        return send_static_file(html_path)
+        return render_template(html_path)
