@@ -96,6 +96,8 @@ def create_sankey(task_id, file_path):
                         none_year_class.remove(i)
                         dd.append(i)
 
+                if len(same_doc_list) <= 0:
+                    continue
                 link_more = {
                     'source': gen_class_name(pre_year, pre_class, pre_year_class['keyword_list'][0]),
                     'target': gen_class_name(year, u_class, year_class['keyword_list'][0]),
@@ -104,7 +106,10 @@ def create_sankey(task_id, file_path):
                 }
                 links_more.append(link_more)
 
+            dd1 = dd1 + none_year_class
             #             print(1111111111, year, u_class, pre_year, pre_class, year_class['doc_list'], pre_year_class['doc_list'], same_doc_list)
+            if len(none_year_class) <= 0:
+                continue
             none_year_link = {
                 'source': gen_none_name(pre_year),
                 'target': gen_class_name(year, u_class, year_class['keyword_list'][0]),
@@ -113,7 +118,7 @@ def create_sankey(task_id, file_path):
             }
             links_more.append(none_year_link)
 
-            dd1 = dd1 + none_year_class
+
 
     links = [{'source': i['source'], 'target': i['target'], 'value': i['value']} for i in links_more]
 
