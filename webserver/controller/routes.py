@@ -9,6 +9,7 @@ from controller.xxlove.xxlove import FileListHandle
 from controller.xxlove.xxlove import ClusterListHandle
 from controller.xxlove.xxlove import ClusterPaperListHandle
 from controller.xxlove.xxlove import SankeyHandle
+from controller.xxlove.xxlove import KeywordHandle
 
 
 
@@ -20,3 +21,4 @@ def register_routes(app):
     app.add_url_rule('/clusterPaperList', view_func=ClusterPaperListHandle.as_view("clusterPaperList"), methods=['GET', 'POST'])
 
     app.add_url_rule('/sankey', view_func=SankeyHandle.as_view("sankey"), methods=['GET', 'POST'])
+    app.add_url_rule('/keyword', view_func=KeywordHandle.as_view("keyword"), methods=['GET', 'POST'])
