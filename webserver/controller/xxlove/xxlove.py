@@ -134,19 +134,37 @@ class ClusterListHandle(Base):
         with open(evolution_file) as f:
             evo_res = json.load(f)
 
-        max_key = max(list(evo_res.keys()))
-        clusters = evo_res.get(max_key)
+        # max_key = max(list(evo_res.keys()))
+        # clusters = evo_res.get(max_key)
+        years = sorted(evo_res)
+
         clusters_trans = []
         totol = 0
-        for k, v in clusters.items():
-            count = len(v['doc_list'])
-            totol += count
-            info = {
-                "cluster_class": k,
-                "count": count,
-                "keyword_list": v['keyword_list'],
-            }
-            clusters_trans.append(info)
+        for year in evo_res:
+            clusters = evo_res[year]
+
+            year_clusters = []
+            year_totol = 0
+
+            cluster_classes = sorted(clusters)
+            for cluster_class in cluster_classes:
+                v = clusters[cluster_class]
+                count = len(v['doc_list'])
+                year_totol += year_totol
+                info = {
+                    "cluster_class": cluster_class,
+                    "count": count,
+                    "keyword_list": v['keyword_list'],
+                }
+                year_clusters.append(info)
+
+            clusters_trans.append({
+                "year": year,
+                "count": year_totol,
+                "data": year_clusters
+            })
+            totol += year_totol
+
 
         return self.set_response(**{'result': clusters_trans})
 
@@ -160,6 +178,7 @@ class ClusterPaperListHandle(Base):
     @Base.check_exception
     def get(self):
         id = request.args.get("id")
+        year = request.args.get("year")
         cluster_class = request.args.get("cluster_class")
 
         res_dir = os.path.join(config.get("result_json_dir"), id)
@@ -171,8 +190,7 @@ class ClusterPaperListHandle(Base):
         with open(evolution_file) as f:
             evo_res = json.load(f)
 
-        max_key = max(list(evo_res.keys()))
-        clusters = evo_res.get(max_key)
+        clusters = evo_res.get(year)
         item = clusters.get(str(cluster_class))
 
         result = []
