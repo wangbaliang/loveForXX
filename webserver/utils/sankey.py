@@ -10,7 +10,7 @@ import copy
 
 from pyecharts.charts import Page, Sankey
 from pyecharts import options as opts
-
+from pyecharts.globals import ThemeType
 
 def gen_html_path(task_id):
     root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -118,13 +118,14 @@ def create_sankey(task_id, file_path):
     links = [{'source': i['source'], 'target': i['target'], 'value': i['value']} for i in links_more]
 
     c = (
-            Sankey()
+            Sankey(init_opts=opts.InitOpts(width='800px', height='450px'))
             .add(
                 "任务: %s" % task_id,
                 nodes,
                 links,
                 linestyle_opt=opts.LineStyleOpts(opacity=0.2, curve=0.5, color="source",type_="dotted"),
-                label_opts=opts.LabelOpts(position="right",),
+                label_opts=opts.LabelOpts(is_show=False),#(position="right",),
+                focus_node_adjacency='allEdges',
             )
             .set_global_opts(title_opts=opts.TitleOpts(title="主题演进桑基图"))
         )
