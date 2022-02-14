@@ -140,13 +140,15 @@ class ClusterListHandle(Base):
 
         clusters_trans = []
         totol = 0
-        for year in evo_res:
+        for year in years:
             clusters = evo_res[year]
 
             year_clusters = []
             year_totol = 0
 
-            cluster_classes = sorted(clusters)
+            clusters_int = [int(key) for key in clusters]
+            clusters_int_order = sorted(clusters_int)
+            cluster_classes = [str(key) for key in clusters_int_order]
             for cluster_class in cluster_classes:
                 v = clusters[cluster_class]
                 count = len(v['doc_list'])
