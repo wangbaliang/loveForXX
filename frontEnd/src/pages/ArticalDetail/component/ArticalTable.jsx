@@ -64,17 +64,17 @@ const ArticalList = (props) => {
       }).catch(err => console.log(err))
       setCloudChartUrl(`${url}/keyword?id=${id}&year=${year}&cluster_class=${clusterClass}`)
     }
-  }, [clusterClass])
+  }, [clusterClass, year])
 
   useEffect(() => {
     form.setFieldsValue({
       clusterClass: list[0]
     })
     setClusterClass(list[0]);
-    if (year) {
+    if (year && list[0] && id) {
       setCloudChartUrl(`${url}/keyword?id=${id}&year=${year}&cluster_class=${list[0]}`)
     }
-  }, [list])
+  }, [list, year])
 
   const onFormChange = ({ clusterClass }) => {
     setClusterClass(clusterClass);
