@@ -1,13 +1,53 @@
--- wgs@test
+xxlove_create.sqlxxlove_create.sql-- wgs@test
 
 CREATE TABLE IF NOT EXISTS `source_file_tar`(
     `id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
     `user_name` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '用户名',
     `upload_path` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '上传路径',
-    `status` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '任务状态 0-解析中，1-解析完成，-1=解析失败',
+    `status` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '任务状态 0-处理中，1-成功，-1=失败',
     `message` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '错误信息',
     `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
     `updated_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='文件包列表';
 
+
+
+CREATE TABLE IF NOT EXISTS `azkaban_task`(
+    `id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+    `tar_id` INT(10) unsigned NOT NULL COMMENT '文件包id',
+    `step` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '当前节点，0-新建 1-数据处理 2-算法处理 3-结果及可视化处理',
+    `status` TINYINT(4) NOT NULL DEFAULT 0 COMMENT '任务状态 0-进行中 1-成功 -1=失败',
+    `message` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '成功或错误详细信息',
+    `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+    `updated_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='任务进度表';
+
+
+CREATE TABLE IF NOT EXISTS `doc_list`(
+    `id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+    `tar_id` INT(10) unsigned NOT NULL COMMENT '文件包id',
+    `year` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '年份',
+    `author` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '作者',
+    `wos_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '文章wosid',
+    `title` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '主题',
+    `detail` TEXT NOT NULL DEFAULT '' COMMENT '摘要',
+    `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+    `updated_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='文件包内文章列表';
+
+
+
+CREATE TABLE IF NOT EXISTS `cluster_result`(
+    `id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+    `tar_id` INT(10) unsigned NOT NULL COMMENT '文件包id',
+    `year` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '年份',
+    `cluster_class` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '聚类类别',
+    `keyword_list` TEXT NOT NULL DEFAULT '' COMMENT '关键字列表',
+    `doc_list` TEXT NOT NULL DEFAULT '' COMMENT '文章id列表',
+    `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+    `updated_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='文件包列表';
