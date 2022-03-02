@@ -1,7 +1,9 @@
 # xxlove
-for xx
 
+I do it just due to my love for chenxingyi.
 
+Chenxingyi: 
+  I wanna say to u:   i really like u. Can u make my GF?
 
 
 
