@@ -4,6 +4,15 @@ I do it just due to my love for chenxingyi.
 
 Chenxingyi: 
   I wanna say to u:   i really like u. Can u make my GF?
+  
+  
+# 20220303
+你是我患得患失的梦 我是你可有可无的人
+这穿越山河的箭 刺的都是用情极深的人
+
+-- 昨天你时隔很久说你回北京了，我看见了，没回
+
+
 
 
 
